@@ -1,6 +1,8 @@
 # CS-334 Machine Learning — Lecture 02: Python Crash Course
-**Date:** 09/01/2026
-**Demo repo:** https://github.com/shengpu-tang/CS334-demo (`Python_Tutorial.ipynb` → "Open in Colab")
+**Date:** 09/01/2026 · **Instructor:** Prof. Shengpu Tang
+**Slides:** `lectures/slides/Lecture-02-Python-Crash-Course.pdf`
+**Paired exercise:** In-Class Exercise #2 → `exercises/ex02-python-numpy-pandas/`
+**Follow-along notebook:** <https://github.com/shengpu-tang/CS334-demo> (`Python_Tutorial.ipynb` → "Open in Colab")
 
 ---
 
@@ -8,10 +10,10 @@
 
 - **In-Class Exercise #1** — reopened on Gradescope; submit if you haven't.
 - **In-Class Exercise #2** — due today, submission closes **11:59pm**.
-- **HW1** — posted, due **Sun 9/13** (two Gradescope entries: HW1-Written and HW1-Code).
-- Gradescope course: `https://www.gradescope.com/courses/1341911`, entry code **X8BBB7**.
+- **HW1** posted, due **Sun 09/13** (two Gradescope entries: HW1-Written and HW1-Code).
+- Gradescope course `1341911`, entry code **X8BBB7**. Slides on Canvas.
 - Calculus and linear algebra refresher notes: Canvas → Files → Readings.
-- Slides on Canvas. `iris_cs334.csv` for Exercise 4 is on Canvas under In-Class Exercises.
+- `iris_cs334.csv` for Exercise 4 is on Canvas under In-Class Exercises.
 
 ---
 
@@ -19,29 +21,33 @@
 
 | Pro | Con |
 |---|---|
-| Easy to learn | Interpreted, not compiled — can be slow |
+| Easy to learn | Interpreted, not compiled — **can be slow** |
 | Elegant, concise syntax | |
-| Huge scientific computing ecosystem | |
+| Versatile: lots of scientific computing resources | |
 
-Python was ~19.6% of job postings in the cited 2022–23 survey (2nd behind JS/TS). Environment for this course: **Jupyter / Google Colab**. NumPy, pandas, matplotlib are pre-installed on Colab; locally you'd `pip install` them.
+Per the cited *devjobsscanner* survey (01-Jan-2022 → 31-May-2023), Python was **603,507 job postings (19.64%)**, second behind JavaScript/TypeScript at 29.80%.
+
+Environment for this course: **Jupyter / Google Colab**. NumPy, pandas, and matplotlib are pre-installed on Colab; locally you'd `pip install` them.
+
+> The "can be slow" con is not a throwaway — it's the entire premise of **HW1 Q3**, which has you time a Python `for` loop against a vectorized NumPy `dot` over sample sizes from 10 to 10M. Keep it in mind through §8.
 
 ---
 
 ## 2. Variables and Types
 
-A variable puts data in memory and gives it a name. Created with the assignment operator `=`.
+A variable puts data in memory and gives it a name. Created with the **assignment operator** `=`.
 
 ```python
-x = 3          # int
-pi = 3.14      # float
-day = "Tuesday"  # str — a sequence of characters
-is_tuesday = True  # bool — note the capitalization: True / False
-# comment: not executed
+x = 3              # int   — integers
+pi = 3.14          # float — real numbers
+day = "Tuesday"    # str   — a sequence of characters
+is_tuesday = True  # bool  — note the capitalization: True / False
+# comment: notes for programmers, doesn't get executed
 ```
 
-Check a type with `type(x)`. Get length of a sequence with `len(hello)`.
+Assignment evaluates the right side first, so `x = 3 + 3` stores `6`.
 
-Compound assignment: `x += 1`, `x *= 2`.
+Check a type with `type(x)`. Get the length of a sequence with `len(day)`. Compound assignment: `x += 1`, `x *= 2`.
 
 ---
 
@@ -59,53 +65,56 @@ Compound assignment: `x += 1`, `x *= 2`.
 | Comparison | `<`, `<=`, `>`, `>=` | `2 < 3` |
 | Logical | `and`, `or`, `not` | `x < 5 and x > 2` |
 
-`!=` acts as logical XOR on booleans (`t != f` → `True`).
+On booleans, `!=` behaves as logical **XOR** (`True != False` → `True`).
 
-### Two kinds of divide
+### 3.1 Two kinds of divide
 
 ```python
-print(17 / 3)   # 5.666666666666667  — true division, always returns float
-print(17 // 3)  # 5                  — floor division, returns int
+print(17 / 3)   # 5.666666666666667  — true division, ALWAYS returns float
+print(17 // 3)  # 5                  — floor division
 print(17 % 3)   # 2                  — remainder
 ```
 
-> **Exercise 2.1 — Float division.** `11.0 // 2.5`
-> Floor division on floats still returns a **float**: `4.0`, not `4`. The `//` operator floors the result but the type is promoted to float because an operand is a float.
+> **Exercise 2.1 — Float division.** `print(11.0 // 2.5)` → **`4.0`**, not `4`.
+> Floor division *floors the value*, but the **type is still promoted to float** because an operand is a float. `//` does not mean "returns an int."
 
-### Strings
+### 3.2 Strings
 
 ```python
-hello = 'hello'   # single or double quotes, doesn't matter
+hello = 'hello'            # single or double quotes, doesn't matter
 world = "world"
-hw = hello + ' ' + world   # concatenation
-print(hw)   # hello world
+hw = hello + ' ' + world   # string concatenation
+print(hw)                  # hello world
 ```
 
-> **Exercise 2.2 — "Adding" a string and a number.** `s = 'CS'; x = 334`
-> `s + x` raises `TypeError` — Python does not implicitly coerce. Fix with `s + str(x)` → `'CS334'`, or use an f-string: `f'{s}{x}'`. Note `s * 3` *does* work (repetition).
+> **Exercise 2.2 — "Adding" a string and a number.** With `s = 'CS'` and `x = 334`:
+> `s + x` raises `TypeError: can only concatenate str (not "int") to str` — **Python does not implicitly coerce**.
+> Fix with `s + str(x)` → `'CS334'`, or an f-string: `f'{s}{x}'`.
+> Note `s * 3` *does* work — that's repetition, giving `'CSCSCS'`.
 
-Full list of string methods: https://docs.python.org/3/library/string.html
+Full list of string methods: <https://docs.python.org/3/library/string.html>
 
 ---
 
 ## 4. Containers
 
-### Lists
+### 4.1 Lists
 
 ```python
-x = [1, 2, 3, 'a', 'b', 'c']  # lists can hold mixed types
-x[0]        # zero-indexed
-x[-1]       # negative indices count from the end
-x[0] = 100  # mutable — modify in place
-x.append('element')
-x.pop()             # removes and returns last item
-'element' in x      # membership test
+#        index:  0  1  2   3    4    5
+x = [1, 2, 3, 'a', 'b', 'c']   # lists can hold mixed types
+x[0]         # zero-indexed
+x[-1]        # negative indices count from the end
+x[3] = 'A'   # mutable — modify in place
+x.append(100)       # add item to the end
+x.pop()             # removes and returns the last item
+'a' in x            # membership test
 x[6]                # IndexError if out of range
 ```
 
 Concatenate with `+`: `[1,2,3] + ['A','B','C']`.
 
-**Slicing** — `x[start:stop]`, right-exclusive:
+**Slicing** — `x[start:stop]`, **right-exclusive**:
 
 ```python
 x = [1, 2, 3, 4, 5]
@@ -115,13 +124,14 @@ x[2:5]   # [3, 4, 5]
 x[2:5] = [-3, -4, -5]   # slice assignment modifies in place
 ```
 
-### ⚠️ Common mistake: copying lists
+### 4.2 ⚠️ Common mistake: copying lists
 
 ```python
 first_list = [1, 2, 3]
-second_list = first_list   # NOT a copy — both names point to the same object
+second_list = first_list   # try to copy — but this is NOT a copy
 second_list[2] = 100
-print(first_list)   # [1, 2, 100]  ← surprise
+print(first_list)    # [1, 2, 100]  ← surprise
+print(second_list)   # [1, 2, 100]
 ```
 
 Fix — take a full slice (shallow copy):
@@ -133,11 +143,11 @@ print(first_list)    # [1, 2, 3]
 print(second_list)   # [1, 2, 100]
 ```
 
-**Key idea:** assignment binds a *name* to an *object*. It never copies. This bites you on every mutable type.
+> **Key idea: assignment binds a *name* to an *object*. It never copies.** `second_list = first_list` makes two names for one list. This bites you on every mutable type — lists, dicts, NumPy arrays, DataFrames.
 
-### Dictionaries
+### 4.3 Dictionaries
 
-Like lists, but indexed by (hashable) keys instead of integers.
+Just like lists, but elements can be indexed by **non-integers** (any hashable key).
 
 ```python
 a = {}                  # empty dict
@@ -146,13 +156,15 @@ print(a)                # {'key': 'value'}
 print(a["key"])         # value
 ```
 
-> **Exercise 2.3 — Copying dictionaries.**
+> **Exercise 2.3 — Copying dictionaries.** Same aliasing bug:
 > ```python
 > dct1 = {'hello': 'world!', "it's!": 'me!'}
-> dct2 = dct1          # ← same aliasing bug as lists
-> dct2["it's!"] = 'you!'
+> dct2 = dct1                 # ← aliases, doesn't copy
+> dct2["it's!"] = 'you!'      # both dicts now show 'you!'
 > ```
-> Both dicts change. Fix with `dct2 = dct1.copy()` or `dct2 = dict(dct1)`. Note `dct1[:]` does **not** work for dicts — slicing isn't defined. For nested structures you'd need `copy.deepcopy`.
+> Fix with `dct2 = dct1.copy()` or `dct2 = dict(dct1)`.
+> The list trick `dct1[:]` does **not** transfer — it raises `KeyError: slice(None, None, None)`, because `[...]` on a dict is a *key lookup* and a slice object isn't a key.
+> For nested structures, neither is enough — you need `copy.deepcopy`.
 
 ---
 
@@ -165,62 +177,67 @@ def hours_and_minutes(minutes):
     return n_hours, n_minutes
 ```
 
-Anatomy:
-- `def` — about to define a function
-- `hours_and_minutes` — name
-- `(minutes)` — input arguments
-- indented block — body. **Whitespace/tabs define scope in Python.**
-- `return` — what comes out; returning multiple values gives back a **tuple**
+Anatomy, as the slides break it down line by line:
+
+| Piece | Role |
+|---|---|
+| `def` | about to define a function |
+| `hours_and_minutes` | name of the function |
+| `(minutes)` | input arguments |
+| indented block | body — **whitespace/tabs matter, they define the scope** |
+| `return` | return value, what we get out |
 
 ```python
-print(hours_and_minutes(181))  # (3, 1)
-print(n_minutes)               # NameError — local to the function, not visible outside
+print(hours_and_minutes(181))  # (3, 1)  ← multiple returns come back as a TUPLE
+print(n_minutes)               # NameError — local to the function, invisible outside
 ```
 
 ---
 
 ## 6. Control Flow
 
-### if / elif / else
+### 6.1 if / elif / else
 
 ```python
-if day == 'Tuesday' or day == 'Thursday':
-    print('Time to Machine Learn!')
-elif day in ['Saturday', 'Sunday']:
-    print('The Weekend!')
+if age > 21:
+    print("Come in!")
+elif age == 20:
+    print("Try again next year.")
 else:
-    print('Just Another Day :/')
+    print("You've got some time!")
 ```
 
-- Condition must evaluate to `True`/`False`
-- **Colons** at the end of each header line
-- `elif` blocks evaluated in order; `else` runs if nothing matched
+- The **condition statement must result in `True`/`False`**.
+- **COLONS** at the end of every header line (the slides shout this one).
+- `elif` blocks are evaluated in order; `else` runs if no condition was true.
 
-### while
+### 6.2 while
 
 ```python
 i = 0
 while i < 3:
     print(i)
     i += 1
-print(i)     # 0 1 2 then 3
+print(i)     # prints 0, 1, 2 … then 3
 ```
 
-Note the loop variable survives after the loop, and prints `3` at the end — the condition is checked *before* each pass.
+The final `3` is the point of the example: the condition is checked **before** each pass, so the loop exits with `i == 3`, and the loop variable **survives after the loop**.
 
-### for
+### 6.3 for
 
 ```python
 animals = ['cat', 'dog', 'monkey']
 
-for animal in animals:      # iterate over items directly (preferred)
+for animal in animals:            # loop through items in a container directly
     print(animal)
 
-for i in range(len(animals)):   # iterate over indices
+for i in range(len(animals)):     # loop through indices
     print(animals[i])
 ```
 
-### List comprehension
+Both print `cat dog monkey`. Prefer the first — iterating items directly is the idiomatic form.
+
+### 6.4 Advanced usage: list comprehension
 
 ```python
 x = [1, 2, 3]
@@ -232,6 +249,7 @@ for item in x:
 
 # comprehension — same result, one line
 y = [item * item for item in x]
+
 print(y)   # [1, 4, 9]
 ```
 
@@ -239,28 +257,28 @@ print(y)   # [1, 4, 9]
 
 ## 7. Modules / Packages
 
-A module is a collection of variables, functions, and classes. Also called library or package.
+A module is a collection of variables, functions, and classes. Also called a **library** or **package**.
 
 ```python
-import math;            math.sqrt(16)
-from math import sqrt;  sqrt(16)
-import math as m;       m.sqrt(16)
+import math;            print(math.sqrt(16))   # 4.0
+from math import sqrt;  print(sqrt(16))        # 4.0
+import math as m;       print(m.sqrt(16))      # 4.0
 ```
 
 ---
 
 ## 8. NumPy
 
-Tensor/matrix library. Like lists, but n-dimensional and much faster (contiguous typed memory, vectorized C loops).
+Tensor/matrix operation library. **Lists, but more dimensions, and faster** — contiguous typed memory and vectorized C loops instead of interpreted Python.
 
 ```python
 import numpy as np
 x = np.array([1, 2, 3])              # vector, shape (3,)
 A = np.array([[1,0,0], [0,1,1]])     # 2x3 matrix
-A_ = A.T                             # transpose → 3x2
+A_ = A.T                             # transposed 3x2 matrix
 ```
 
-### Element-wise operations (broadcasting)
+### 8.1 Element-wise operations
 
 ```python
 x + 1     # [2 3 4]
@@ -270,37 +288,33 @@ x > 1     # [False  True  True]   ← boolean mask
 x == 1    # [ True False False]
 ```
 
-`*` on arrays is **element-wise**, not matrix multiplication.
+**`*` on arrays is element-wise, not matrix multiplication.**
 
-### Dot / matrix products
+### 8.2 Dot product; matrix-vector product
 
-Three equivalent spellings:
+Three equivalent spellings each:
 
 ```python
-x @ x        # 14
-np.dot(x, x) # 14
-x.dot(x)     # 14
-
-A @ x        # [1 5]
-np.dot(A, x) # [1 5]
-A.dot(x)     # [1 5]
+x @ x         # 14        A @ x         # [1 5]
+np.dot(x, x)  # 14        np.dot(A, x)  # [1 5]
+x.dot(x)      # 14        A.dot(x)      # [1 5]
 ```
 
-### Summary statistics
+### 8.3 Summary statistics
 
 ```python
 np.sum(x)    # 6
 np.mean(x)   # 2.0
-np.std(x)    # 0.8164965809277263
+np.std(x)    # 0.816496580927726
 
-np.sum(A,  axis=0)   # [1 1 1]   ← axis=0 collapses rows (column-wise result)
+np.sum(A,  axis=0)   # [1 1 1]         ← axis=0 collapses rows (column-wise result)
 np.mean(A, axis=0)   # [0.5 0.5 0.5]
 np.std(A,  axis=0)   # [0.5 0.5 0.5]
 ```
 
-Mnemonic: `axis=k` is the axis that **disappears** from the output shape.
+> **Mnemonic: `axis=k` is the axis that *disappears* from the output shape.** `A` is (2,3); `np.sum(A, axis=0)` is (3,).
 
-### Exercises Q3
+### 8.4 Exercise 3
 
 Setup:
 ```python
@@ -311,23 +325,25 @@ x3 = rng.random((5,4,3))              # shape (5,4,3)
 x4 = rng.integers(0, 10, size=(5,4))  # shape (5,4)
 ```
 
-> **Q3.1 — `.shape` vs `.size`.** `.shape` is the tuple of dimensions; `.size` is the total number of elements (the product of the shape). E.g. `x3.shape == (5,4,3)` but `x3.size == 60`. Also `x3.ndim == 3`, and `len(x3)` gives only the first dimension (5).
+> **Q3.1 — `.shape` vs `.size`.** `.shape` is the tuple of dimensions; `.size` is the **total number of elements** (the product of the shape). So `x3.shape == (5,4,3)` but `x3.size == 60`. Also `x3.ndim == 3`, and `len(x3)` gives only the **first** dimension, `5`.
 
-> **Q3.2 — Multiplication.** `x2 * x4` is element-wise (same shape → shape (5,4)). `x2 @ x4` fails: inner dimensions (5,4)·(5,4) don't line up — you'd need `x2 @ x4.T` → (5,5) or `x2.T @ x4` → (4,4). Broadcasting also lets `x2 * x1` work, since (5,4) and (4,) align on the trailing axis.
+> **Q3.2 — Multiplication.** `x2 * x4` is element-wise; both are (5,4), so the result is (5,4).
+> `x2 @ x4` raises `ValueError` — the inner dimensions of (5,4)·(5,4) don't line up. You'd need `x2 @ x4.T` → (5,5) or `x2.T @ x4` → (4,4).
+> Broadcasting also makes `x2 * x1` work — (5,4) and (4,) align on the trailing axis, giving (5,4).
 
 > **Q3.3 — dtype gotcha.**
 > ```python
 > arr = np.array([1,2,3])   # dtype inferred as int64
-> arr[0] = 1.5
+> arr[0] = 1.5              # trying to change 1 to 1.5
 > print(arr)                # [1 2 3]  ← silently truncated!
 > ```
-> NumPy arrays are **homogeneously typed and fixed dtype**. Assigning a float into an int array truncates toward zero without warning. Fix: create it as float from the start — `np.array([1,2,3], dtype=float)` or `np.array([1.,2.,3.])` — or `arr = arr.astype(float)` first. This is a common silent-bug source in ML code.
+> NumPy arrays are **homogeneously typed with a fixed dtype**. Assigning a float into an int array truncates toward zero **with no warning**. Fix by creating it as float from the start — `np.array([1,2,3], dtype=float)` or `np.array([1.,2.,3.])` — or `arr = arr.astype(float)` first. A common silent-bug source in ML code.
 
 ---
 
 ## 9. Pandas
 
-A DataFrame is a 2D table like a NumPy array, except **rows/columns have names** and it can **hold non-numeric data**.
+A **DataFrame** is a table just like a 2D NumPy array — but **rows/columns have names** and the table **can hold non-numbers**.
 
 ```python
 import pandas as pd
@@ -344,46 +360,48 @@ df = pd.DataFrame(
 | 2 | 3 | 9   | odd    |
 | 3 | 4 | 16  | even   |
 
-### Boolean (logical) slicing
+### 9.1 Slicing on a logical condition
 
 ```python
-df[df['parity'] == 'odd']            # rows 0 and 2
+df[df['parity'] == 'odd']   # rows 0 and 2
 ```
 
-### Chaining slice + summary statistic
+### 9.2 Chaining the slice operator with summary statistics
 
 ```python
 df[df['parity'] == 'odd']['x'].mean()   # 2.0
 ```
 
-Read the pattern as: build a boolean mask → filter rows → select a column → aggregate.
+Read the pattern as: **build a boolean mask → filter rows → select a column → aggregate.** This idiom carries straight into Exercise 4 and HW1 Q4.
 
 ---
 
 ## 10. Matplotlib
 
+Package for plotting data.
+
 ```python
 import matplotlib.pylab as plt
 
 x = np.arange(5)
-y = x ** 2
+y = x * x
 plt.plot(x, y)
 plt.show()
 ```
 
-Styling — format string is `color + marker + linestyle`:
+**Styling** — the format string is `color + marker + linestyle`:
 
 ```python
 x = np.linspace(0, 1, 10)
-plt.plot(x, x**2,     'ro:', label="parabola")   # red, circles, dotted
-plt.plot(x, np.sin(x),'gx--', label="sine")      # green, x-marks, dashed
+plt.plot(x, x**2,      'ro:',  label="parabola")   # red, circles, dotted
+plt.plot(x, np.sin(x), 'gx--', label="sine")       # green, x-marks, dashed
 plt.xlabel('some numbers')
 plt.ylabel('some more numbers')
 plt.legend()
 plt.show()
 ```
 
-Scatter:
+**Scatter:**
 
 ```python
 x = np.random.uniform(1, 1000, 1000)
@@ -396,34 +414,68 @@ plt.show()
 
 ## 11. Exercise 4 — Data Exploration (iris)
 
-Download `iris_cs334.csv` from Canvas (In-Class Exercises folder), upload to Colab with the **upload button** in the file picker on the left sidebar. Note: Colab's filesystem is ephemeral — files vanish when the runtime disconnects.
+Download `iris_cs334.csv` from Canvas (In-Class Exercises folder) and upload it to Colab with the **upload button** in the file picker on the left sidebar.
+
+> Colab's filesystem is **ephemeral** — uploaded files vanish when the runtime disconnects. Re-upload after a reconnect.
 
 ```python
 df = pd.read_csv('iris_cs334.csv')
 df   # 100 rows x 5 columns
 ```
 
-Columns: `sepal_length`, `sepal_width`, `petal_length`, `petal_width`, `variety` (Setosa / Virginica — note this trimmed version has only 2 of the usual 3 classes).
+Columns: `sepal_length`, `sepal_width`, `petal_length`, `petal_width`, `variety`.
+Varieties are **Setosa** and **Virginica** only — this trimmed version has 2 of the usual 3 classes, 50 rows each.
 
-**Q4.1 Summary statistics**
+**Q4.1 Summary statistics** — the chaining idiom from §9.2:
 ```python
 df['petal_length'].median()
 df[df['variety'] == 'Virginica']['sepal_width'].mean()
 df[df['variety'] == 'Setosa']['sepal_length'].std()
 ```
 
-**Q4.2 Scatterplot** — petal_length vs petal_width, colored by variety. The two classes separate cleanly, which is the whole reason iris is the standard toy classification dataset.
+**Q4.2 Scatterplot** — `petal_length` vs `petal_width`, colored by variety. The two classes separate cleanly into two well-isolated blobs.
 
-**Q4.3 Boxplot** — sepal length grouped by variety (x = variety, y = sepal_length); Virginica sits noticeably higher than Setosa, though with more overlap than the petal features show.
+**Q4.3 Boxplot** — `sepal_length` grouped by variety. Virginica sits noticeably higher than Setosa, but with more overlap than the petal features show.
+
+> **Why this matters beyond the exercise:** "these two classes form two separated blobs" is exactly the picture Lecture 03 opens with, and "can I draw a line between them?" is the whole of linear classification. The petal features are nearly separable; the sepal features are not. → `Lecture-03-Linear-Classification.md`
+
+Worked answers and code: `exercises/ex02-python-numpy-pandas/`.
 
 ---
 
-## Things worth remembering
+## Quick Reference
 
-1. **Assignment never copies.** `b = a` aliases. Use `a[:]`, `.copy()`, or `copy.deepcopy` for nested structures.
-2. **`/` vs `//`.** True division always returns float; floor division returns int only if both operands are ints.
-3. **Indentation is syntax**, not style. It defines scope.
-4. **NumPy arrays have a fixed dtype** — assigning a float into an int array truncates silently.
-5. **`*` is element-wise, `@` is matrix multiply.** Mixing them up is the most common NumPy bug.
-6. **`axis=k` collapses axis k.** `axis=0` → column-wise stats, `axis=1` → row-wise.
-7. Pandas filter idiom: `df[df[col] == val][other_col].agg()`.
+```
+DIVISION        17 / 3  → 5.666…  true division, ALWAYS float
+                17 // 3 → 5       floor division
+                11.0 // 2.5 → 4.0  ← float in, float out
+                17 % 3  → 2       remainder
+
+ALIASING        b = a           two names, ONE object — never a copy
+                b = a[:]        shallow copy (list)
+                b = a.copy()    shallow copy (list or dict; a[:] fails on dict)
+                copy.deepcopy(a)  nested structures
+
+STRINGS         'CS' + 334  → TypeError, no implicit coercion
+                'CS' + str(334)  or  f'{s}{x}'      → 'CS334'
+                'CS' * 3    → 'CSCSCS'              repetition
+
+SCOPE           indentation IS syntax — it defines the block
+                return a, b  → comes back as a tuple
+                locals are invisible outside the function
+
+NUMPY           x * y   element-wise        x @ y   matrix / dot product
+                arr = np.array([1,2,3]); arr[0] = 1.5  → [1 2 3]  SILENT truncation
+                fixed dtype: np.array([1,2,3], dtype=float) or .astype(float)
+                axis=k collapses axis k:  axis=0 → column-wise, axis=1 → row-wise
+                .shape tuple of dims  |  .size total elements  |  .ndim rank
+                len(arr) is only the FIRST dimension
+                broadcasting aligns on TRAILING axes: (5,4) * (4,) → (5,4)
+
+PANDAS          df[df[col] == val][other_col].agg()
+                mask → filter rows → select column → aggregate
+
+MATPLOTLIB      plt.plot(x, y, 'ro:')    fmt = color + marker + linestyle
+                plt.scatter(x, y, s=5)   s = marker size
+                plt.xlabel / ylabel / legend / show
+```
