@@ -1,0 +1,17 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# Local tooling / session state
+.remember/
+.dist/
+.claude/
+
+# Never commit the signed honor-code attestation
+README.txt
