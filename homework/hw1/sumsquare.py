@@ -4,6 +4,12 @@ Vectorization Comparison for Computing Sum of Squares
 Follow the instructions in the homework to complete the assignment.
 """
 
+import timeit
+
+import numpy as np
+import pandas as pd
+
+
 def gen_random_samples(n):
     """
     Generate n random samples using the
@@ -14,8 +20,7 @@ def gen_random_samples(n):
     sample : 1d array of size n
         An array of n random samples
     """
-    # TODO: Implement this function
-    return None
+    return np.random.randn(n)
 
 
 def sum_squares_for(samples):
@@ -32,8 +37,10 @@ def sum_squares_for(samples):
     ss : float
         The sum of squares of the samples
     """
-    # TODO: Implement this function
-    return 0
+    ss = 0.0
+    for x in samples:
+        ss += x * x
+    return ss
 
 
 def sum_squares_np(samples):
@@ -50,8 +57,7 @@ def sum_squares_np(samples):
     ss : float
         The sum of squares of the samples
     """
-    # TODO: Implement this function
-    return 0
+    return np.dot(samples, samples)
 
 
 def time_ss(sample_list):
@@ -75,8 +81,18 @@ def time_ss(sample_list):
         and the timing in seconds associated with that 
         number of samples.
     """
-    # TODO: Implement this function
-    return None
+    ss_dict = {"n": list(sample_list), "ssfor": [], "ssnp": []}
+    for n in sample_list:
+        samples = gen_random_samples(n)
+
+        start = timeit.default_timer()
+        sum_squares_for(samples)
+        ss_dict["ssfor"].append(timeit.default_timer() - start)
+
+        start = timeit.default_timer()
+        sum_squares_np(samples)
+        ss_dict["ssnp"].append(timeit.default_timer() - start)
+    return ss_dict
 
 
 def timess_to_df(ss_dict):
@@ -98,8 +114,7 @@ def timess_to_df(ss_dict):
         The column names must be n, ssfor, ssnp and follow that order.
         ssfor and ssnp should contain the time in seconds.
     """
-    # TODO: Implement this function
-    return None
+    return pd.DataFrame(ss_dict, columns=["n", "ssfor", "ssnp"])
 
 
 def main():

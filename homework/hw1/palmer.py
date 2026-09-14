@@ -4,6 +4,10 @@ Pandas DataFrame Manipulation with Palmer Penguins Dataset
 Follow the instructions in the homework to complete the assignment.
 """
 
+import numpy as np
+import pandas as pd
+
+
 def load_csv(inputfile):
     """
     Load the csv as a pandas data frame
@@ -19,8 +23,7 @@ def load_csv(inputfile):
         return the pandas dataframe with the contents
         from the csv inputfile
     """
-    # TODO: Implement this function
-    return None
+    return pd.read_csv(inputfile)
 
 
 def remove_na(inputdf, colname):
@@ -40,8 +43,7 @@ def remove_na(inputdf, colname):
     outputdf : pandas.DataFrame
         return the pandas dataframe with the modified contents
     """
-    # TODO: Implement this function
-    return None
+    return inputdf.dropna(subset=[colname]).reset_index(drop=True)
 
 
 def onehot(inputdf, colname):
@@ -62,8 +64,9 @@ def onehot(inputdf, colname):
     outputdf : pandas.DataFrame
         return the pandas dataframe with the modified contents
     """
-    # TODO: Implement this function
-    return None
+    dummies = pd.get_dummies(inputdf[colname]).astype(int)
+    outputdf = inputdf.drop(columns=[colname])
+    return pd.concat([outputdf, dummies], axis=1)
 
 
 def to_numeric(inputdf):
@@ -81,8 +84,7 @@ def to_numeric(inputdf):
         return the numeric contents of the input dataframe as a 
         numpy array
     """
-    # TODO: Implement this function
-    return None
+    return inputdf.select_dtypes(include=[np.number, bool]).to_numpy()
 
 
 def main():
