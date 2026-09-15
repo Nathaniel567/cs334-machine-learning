@@ -30,6 +30,7 @@ Coursework, lecture notes, and in-class exercises.
 | 02 | 09/01 | Python Crash Course | [PDF](lectures/slides/Lecture-02-Python-Crash-Course.pdf) | [Notes](lectures/notes/Lecture-02-Python-Crash-Course.md) |
 | 03 | 09/03 | Linear Classification | [PDF](lectures/slides/Lecture-03-Linear-Classification.pdf) | [Notes](lectures/notes/Lecture-03-Linear-Classification.md) |
 | 04 | 09/08 | Perceptron | [PDF](lectures/slides/Lecture-04-Perceptron.pdf) | [Notes](lectures/notes/Lecture-04-Perceptron.md) |
+| 05 | 09/10 | Gradient Descent | [PDF](lectures/slides/Lecture-05-Gradient-Descent.pdf) | [Notes](lectures/notes/Lecture-05-Gradient-Descent.md) |
 
 ## In-Class Exercises
 
@@ -42,7 +43,7 @@ Coursework, lecture notes, and in-class exercises.
 
 | # | Due | Status | Files |
 |---|---|---|---|
-| 1 | **Sun 09/13, 11:59pm** | In progress | [`homework/hw1/`](homework/hw1) |
+| 1 | Sun 09/13, 11:59pm | Submitted | [`homework/hw1/`](homework/hw1) |
 
 ---
 
@@ -59,11 +60,17 @@ Coursework, lecture notes, and in-class exercises.
 | $\mathcal{H}$ | hypothesis class — the set of classifiers we search over |
 | $\vec{\theta} \in \mathbb{R}^d$ | parameter / weight / normal vector — *is* the model |
 | $b \in \mathbb{R}$ | offset (intercept) |
+| $z = y(\vec{\theta}\cdot\vec{x})$ | margin — sign says right/wrong, magnitude says how much |
+| $R_N(\vec{\theta})$ | empirical risk — training error with the 0-1 indicator relaxed to a loss |
+| $\eta_k$ | step size / learning rate at step $k$ |
 
 ```
 h(x⃗; θ⃗)      = sign(θ⃗ · x⃗)                          linear classifier through origin
 h(x⃗; θ⃗, b)   = sign(θ⃗ · x⃗ + b)                      with offset
 E_N(θ⃗)       = (1/N) Σ 1[ y⁽ⁱ⁾(θ⃗ · x⃗⁽ⁱ⁾) ≤ 0 ]      training error
+R_N(θ⃗)       = (1/N) Σ loss(y⁽ⁱ⁾, θ⃗ · x⃗⁽ⁱ⁾)        empirical risk
+loss_h(z)    = max{0, 1 − z}                       hinge loss (convex)
+θ⃗ ← θ⃗ − η ∇f(θ⃗)                                   gradient descent step
 ```
 
 Three things that are easy to lose points on:
