@@ -9,6 +9,8 @@ worth having memorized, in plain text.
 | [03](Lecture-03-Linear-Classification.md) | 09/03 | Linear Classification — notation, overfitting, `θ⃗·x⃗`, training error |
 | [04](Lecture-04-Perceptron.md) | 09/08 | Perceptron — the algorithm, offsets, convergence, undershooting |
 | [05](Lecture-05-Gradient-Descent.md) | 09/10 | Gradient Descent — XOR, hinge loss, empirical risk, GD & SGD |
+| [06](Lecture-06-Linear-Regression.md) | 09/15 | Linear Regression — squared loss, SGD, closed form, invertibility of `XᵀX` |
+| [07](Lecture-07-Regularization.md) | 09/17 | Regularization — polynomial features, bias–variance, ridge & LASSO, geometry |
 
 Notes are written from the slide decks in [`../slides/`](../slides), which include the
 professor's handwritten in-class annotations.
