@@ -31,6 +31,8 @@ Coursework, lecture notes, and in-class exercises.
 | 03 | 09/03 | Linear Classification | [PDF](lectures/slides/Lecture-03-Linear-Classification.pdf) | [Notes](lectures/notes/Lecture-03-Linear-Classification.md) |
 | 04 | 09/08 | Perceptron | [PDF](lectures/slides/Lecture-04-Perceptron.pdf) | [Notes](lectures/notes/Lecture-04-Perceptron.md) |
 | 05 | 09/10 | Gradient Descent | [PDF](lectures/slides/Lecture-05-Gradient-Descent.pdf) | [Notes](lectures/notes/Lecture-05-Gradient-Descent.md) |
+| 06 | 09/15 | Linear Regression | [PDF](lectures/slides/Lecture-06-Linear-Regression.pdf) | — |
+| 07 | 09/17 | Regularization | [PDF](lectures/slides/Lecture-07-Regularization.pdf) | — |
 
 ## In-Class Exercises
 
