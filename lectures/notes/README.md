@@ -11,6 +11,7 @@ worth having memorized, in plain text.
 | [05](Lecture-05-Gradient-Descent.md) | 09/10 | Gradient Descent — XOR, hinge loss, empirical risk, GD & SGD |
 | [06](Lecture-06-Linear-Regression.md) | 09/15 | Linear Regression — squared loss, SGD, closed form, invertibility of `XᵀX` |
 | [07](Lecture-07-Regularization.md) | 09/17 | Regularization — polynomial features, bias–variance, ridge & LASSO, geometry |
+| [08](Lecture-08-Logistic-Regression.md) | 09/22 | Logistic Regression — sigmoid, likelihood → logistic loss, SGD, separable data |
 
 Notes are written from the slide decks in [`../slides/`](../slides), which include the
 professor's handwritten in-class annotations.

@@ -33,6 +33,7 @@ Coursework, lecture notes, and in-class exercises.
 | 05 | 09/10 | Gradient Descent | [PDF](lectures/slides/Lecture-05-Gradient-Descent.pdf) | [Notes](lectures/notes/Lecture-05-Gradient-Descent.md) |
 | 06 | 09/15 | Linear Regression | [PDF](lectures/slides/Lecture-06-Linear-Regression.pdf) | [Notes](lectures/notes/Lecture-06-Linear-Regression.md) |
 | 07 | 09/17 | Regularization | [PDF](lectures/slides/Lecture-07-Regularization.pdf) | [Notes](lectures/notes/Lecture-07-Regularization.md) |
+| 08 | 09/22 | Logistic Regression | [PDF](lectures/slides/Lecture-08-Logistic-Regression.pdf) | [Notes](lectures/notes/Lecture-08-Logistic-Regression.md) |
 
 ## In-Class Exercises
 
@@ -45,7 +46,7 @@ Coursework, lecture notes, and in-class exercises.
 
 | # | Due | Status | Files |
 |---|---|---|---|
-| 1 | Sun 09/13, 11:59pm | Submitted | [`homework/hw1/`](homework/hw1) |
+| 1 | Sun 09/13, 11:59pm | Submitted · graded (solutions on Canvas) | [`homework/hw1/`](homework/hw1) |
 | 2 | Sun 09/27, 11:59pm | Released — not started | — (extra credit: Weighted Linear Regression, due Wed 09/30) |
 
 ---
@@ -70,6 +71,7 @@ Coursework, lecture notes, and in-class exercises.
 | $X \in \mathbb{R}^{N\times d}$, $\vec{y} \in \mathbb{R}^{N}$ | design matrix (one example per **row**) and label vector |
 | $\phi(x)$ | explicit feature mapping, e.g. $[1,x,x^2,\dots,x^M]$ |
 | $\Omega(\vec{\theta})$, $\lambda > 0$ | regularizer and regularization strength |
+| $\sigma(z) = 1/(1+e^{-z})$ | sigmoid — squashes $\mathbb{R}\to[0,1]$ (Lec 08 on) |
 
 ```
 h(x⃗; θ⃗)      = sign(θ⃗ · x⃗)                          linear classifier through origin
@@ -85,6 +87,10 @@ loss(z)      = z²/2,  z = y − θ⃗ · x⃗                 squared loss / OL
 θ⃗* = (XᵀX)⁻¹ Xᵀy⃗                                    OLS closed form
 J(θ⃗)         = R_N(θ⃗) + λ Ω(θ⃗)                     regularized objective
 θ⃗* = (XᵀX + λI)⁻¹ Xᵀy⃗                               ridge (always invertible)
+
+h(x⃗; θ⃗)      = σ(θ⃗ · x⃗) = Pr[y = +1 | x⃗]            logistic regression
+loss_log(z)  = log(1 + e⁻ᶻ),  z = y(θ⃗ · x⃗)          logistic loss (convex; from MLE)
+θ⃗ ← θ⃗ + η (1 − σ(y θ⃗·x⃗)) y x⃗                       logistic SGD (no closed form)
 ```
 
 Three things that are easy to lose points on:
