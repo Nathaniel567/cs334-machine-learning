@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CS 334 HW2</title>
+<script>
+window.MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+<style>
+  body { font-family: Georgia, "Times New Roman", serif; max-width: 820px; margin: 0 auto; padding: 24px 16px 64px; line-height: 1.55; color: #111; background: #fff; }
+  header { text-align: center; margin-bottom: 24px; }
+  header p { margin: 2px 0; }
+  h1 { font-size: 1.1rem; margin: 10px 0 0; }
+  h2 { font-size: 1.3rem; margin-top: 36px; }
+  h3 { font-size: 1.1rem; margin-top: 26px; }
+  .box { border: 1px solid #333; padding: 12px 16px; margin: 16px 0; }
+  .note { background: #fff3a0; padding: 2px 4px; }
+  .flag { background: #ffe0e0; border-left: 4px solid #c00; padding: 8px 12px; margin: 10px 0; }
+  pre { background: #f4f4f4; padding: 10px; overflow-x: auto; font-size: 0.85rem; }
+  code { font-size: 0.92em; }
+  .code-q { font-weight: bold; color: #444; }
+  ol.alpha { list-style-type: lower-alpha; }
+  ol.roman { list-style-type: lower-roman; }
+  li { margin: 8px 0; }
+  table { border-collapse: collapse; margin: 12px auto; }
+  th, td { border: 1px solid #333; padding: 4px 12px; text-align: center; min-width: 50px; }
+  .plot { border: 1px dashed #888; padding: 10px; text-align: center; color: #555; font-style: italic; margin: 12px 0; }
+  hr.doc { margin: 56px 0; border: 0; border-top: 3px double #333; }
+</style>
+</head>
+<body>
+
+<header>
+  <p>EMORY UNIVERSITY</p>
+  <p>Department of Computer Science</p>
+  <p>CS 334 Section 2 — Machine Learning</p>
+  <p>Fall 2026</p>
+  <h1>Homework 2, Issued: Fri 09/11, Due: Sun 09/27 at 11:59pm</h1>
+</header>
+
+<div class="box">
+  <p><strong>Submission Instructions:</strong> The homework is due on Gradescope in <strong>two</strong> parts.</p>
+  <ul>
+    <li><strong>Upload PDF to HW2-Written:</strong> Create a single high-quality PDF with your answers to the non-coding problems. Your submission may be typed or handwritten (can be scanned or from a note-taking software), but the pages must be tagged with the relevant questions appropriately on Gradescope. You do not need to include code in the PDF unless otherwise instructed.</li>
+    <li><strong>Submit code to the HW2-Code:</strong> Questions marked with <span class="code-q">[CODE]</span> are graded by a Python autograder. Your submission must include only the following files: <code>perceptron.py</code>, <code>linear_regression.py</code>, <code>README.txt</code> (no data files please). You may submit multiple times but be sure to upload <em>ALL</em> files when you re-submit; only the latest submission will be considered. The <code>README.txt</code> file must contain a <strong>SIGNED</strong> <em>honor code statement</em> that reads as follows:
+<pre>THIS HOMEWORK IS MY OWN WORK, WRITTEN WITHOUT COPYING FROM OTHER STUDENTS
+Any collaboration or external resources have been properly acknowledged.
+&lt;add details&gt;
+/* Your_Name_Here */</pre>
+    </li>
+  </ul>
+  </div>
+</div>
+
+<p><span class="note"><strong>Note about runtime:</strong> a correct implementation should take &lt;1 minute for all experiments in this homework.</span></p>
+
+<h2>1 Decision Boundaries (24 pts)</h2>
+<p>Note: In this course, we use the convention that points on the decision boundary are misclassified.</p>
+<ol class="alpha">
+  <li>Consider the AND function defined over three binary variables: \(f(x_1,x_2,x_3) = (x_1 \wedge x_2 \wedge x_3)\). We aim to find a \(\vec\theta \in \mathbb{R}^3\) such that for any \(\vec x = [x_1,x_2,x_3]^T\), where each \(x_d \in \{0,1\}\):
+    \[\vec\theta\cdot\bar x + b > 0 \text{ when } f(x_1,x_2,x_3)=1, \text{ and}\]
+    \[\vec\theta\cdot\bar x + b < 0 \text{ when } f(x_1,x_2,x_3)=0.\]
+    <ol class="roman">
+      <li>(4pts) If \(b = 0\) (i.e., no offset), would it be possible to learn such a \(\vec\theta\)? Explain.</li>
+      <li>(4pts) How about if a non-zero offset is allowed? Provide an example of such \(\vec\theta\) and \(b\), or explain why it’s not possible.</li>
+    </ol>
+  </li>
+  <li>Consider the following dataset with four examples: \([1,1]\) and \([-1,-1]\) are positive, and \([-1,0]\) and \([0,1]\) are negative. For each of the following classifier type, give an example (specify the parameters) of a classifier of that type that can correctly classify the above data, or explain why no such classifier exists. Make sure to specify the direction of the negative &amp; positive decision.
+    <ol class="roman">
+      <li>(4pts) Inside or outside of a circle centered at the origin with radius \(r\)</li>
+      <li>(4pts) Above or below a line through the origin with normal \([a,b]\)</li>
+      <li>(4pts) Inside or outside of a square centered at \([a,b]\) with sides parallel to the axes and side length \(s\)</li>
+      <li>(4pts) Inside or outside of a square centered at the origin with side length \(s\) and counter-clockwise rotation \(\alpha\), where \(\alpha = 0\) implies sides parallel to the axes</li>
+    </ol>
+  </li>
+</ol>
+
+<h2>2 Perceptron Algorithm with Offset (24 pts)</h2>
+<p>Consider a <strong><em>sequence</em></strong> of 2-dimensional data points, \(\vec x^{(1)}, \vec x^{(2)}, \ldots, \vec x^{(n)}\) and their corresponding labels \(y^{(1)}, y^{(2)}, \ldots, y^{(n)}\). Recall the perceptron algorithm updates the parameters whenever \(y^{(i)} \neq h(\vec x^{(i)};\vec\theta)\) where \(h(\vec x^{(i)};\vec\theta) = \operatorname{sign}(\vec\theta\cdot\vec x^{(i)} + b)\). Assume that the points are linearly separable, and that both \(\vec\theta\) and \(b\) are initialized to zero. Let \(\alpha_i\) denote the number of times \(\vec x^{(i)}\) is misclassified during training.</p>
+<ol class="alpha">
+  <li>(4pts) Express the parameters \(\vec\theta\) and \(b\) of the final decision boundary for the perceptron algorithm in terms of \(\alpha_i\), \(\vec x^{(i)}\) and \(y^{(i)}\).</li>
+  <li>(4pts) Show that the shortest <strong>signed</strong> distance from the boundary to the origin is equal to \(\frac{b}{\|\vec\theta\|}\).</li>
+  <li><span class="code-q">[CODE]</span> (7pts) We have provided you with skeleton code in <code>perceptron.py</code>. Implement the helper function <code>all_correct(X,y,theta,b)</code> and the algorithm function <code>perceptron(X,y)</code>, following the function specifications in the skeleton code. Do not shuffle the points.</li>
+  <li>(5pts) We’ve also given you a dataset <code>classification.csv</code>. Report the \(\vec\theta\) and \(b\) produced by your implementation and \(\vec\alpha\), the number of times each point is misclassified. Your answers for \(\vec\theta\), \(b\), and \(\vec\alpha\) should match with the expressions you derived in (a).</li>
+  <li>(4pts) Given a set of linearly separable points, does the order in which the points are presented to the algorithms affect whether or not the algorithm will converge? In general, could the order affect the total number of mistakes made?</li>
+</ol>
+
+<h2>3 Linear Regression (30 + 22 pts)</h2>
+<p>You are provided with skeleton code <code>linear_regression.py</code> and data files, <code>linreg_train.csv</code> and <code>linreg_validation.csv</code>, which specify a linear regression problem for a polynomial. In each csv file, the first column specifies the output (\(y^{(i)} \in \mathbb{R}\)), and the second column specifies the input (\(x^{(i)} \in \mathbb{R}\)). There is one training/validation example per row.</p>
+<p>You may find it useful to generate 2D-plots for the training data and the output of regression functions.</p>
+<p>Recall that for linear regression, the empirical risk with <strong>squared loss</strong> is:</p>
+\[R_N(\vec\theta) = \frac{1}{N}\sum_{i=1}^{N}\frac{(y^{(i)} - \vec\theta\cdot\vec x^{(i)})^2}{2}\]
+
+<h3>3.1 Linear Regression - Optimization Method (30 pts)</h3>
+<ol class="alpha">
+  <li><span class="code-q">[CODE]</span> (4pts) Implement the function <code>generate_polynomial_features(X,M)</code> according to the specification in the skeleton code. This function transforms each example \(x^{(i)}\) into an \(M+1\) dimensional feature vector, \(\phi(x^{(i)})\). In part 3.1 you will explore a solution based on a first degree polynomial. However, the function should be general enough to handle any \(M \geq 0\) for latter parts.</li>
+  <li><span class="code-q">[CODE]</span> (0pt) Implement the helper function <code>calculate_squared_loss</code> according to the specification, which computes the empirical risk with squared loss defined above. Note that this question is not graded for credit. You will call this helper function in subsequent parts, so we’ve created public test cases to help you debug.</li>
+  <li><span class="code-q">[CODE]</span> You will now implement three different optimization methods to find the coefficients \(\theta_1\) and \(\theta_0\) (slope and intercept, respectively) that minimize the <strong>squared loss</strong> for a first degree polynomial \(\hat y = \theta_1 x + \theta_0\).
+    <ul>
+      <li>(3pts) Implement <code>ls_gradient_descent(X,y)</code>.</li>
+      <li>(3pts) Implement <code>ls_stochastic_gradient_descent(X,y)</code>.</li>
+      <li>(3pts) Implement <code>ls_closed_form_solution(X,y)</code> (ignore <code>reg_param</code> for now).</li>
+    </ul>
+    <div class="box">
+      <p><strong>Important note:</strong></p>
+      <ul>
+        <li>For the family of gradient descent algorithms, check for convergence after each epoch (one pass through the entire training set).</li>
+        <li>For SGD, do NOT shuffle the points after each epoch.</li>
+        <li>The <code>prev_loss</code> and <code>new_loss</code> in the skeleton code refer to empirical risk for linear regression as defined above.</li>
+        <li>Use the convergence criteria specified in the code: the algorithm should terminate when there is either marginal improvement in the loss (\(&lt; 10^{-10}\)) during a single iteration, or after 1,000,000 iterations — whichever happens first.</li>
+        <li>For the closed form solution, if you encounter numerical stability issues in the calculation of matrix inverse, consider using the pseudoinverse operation <code>np.linalg.pinv()</code>.</li>
+      </ul>
+    </div>
+  </li>
+  <li>(4pts) Use the functions you implemented above to find the coefficients \(\theta_1\) and \(\theta_0\) that minimize the squared loss for a first degree polynomial (\(M = 1\)). For GD and SGD, you need to specify a learning rate (or step size) \(\eta\). Try different values of \(\eta \in \{10^{-4}, 10^{-3}, 10^{-2}, 10^{-1}\}\). Report your results in the following table. Here “# iterations” refers to the number of \(\bar\theta\) updates.
+    <table>
+      <tr><th>Algorithm</th><th>\(\eta\)</th><th>\(\theta_0\)</th><th>\(\theta_1\)</th><th># iterations</th><th>Runtime (s)</th></tr>
+      <tr><td>GD</td><td>\(10^{-4}\)</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>GD</td><td>\(10^{-3}\)</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>GD</td><td>\(10^{-2}\)</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>GD</td><td>\(10^{-1}\)</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>SGD</td><td>\(10^{-4}\)</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>SGD</td><td>\(10^{-3}\)</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>SGD</td><td>\(10^{-2}\)</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>SGD</td><td>\(10^{-1}\)</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>Closed form</td><td>-</td><td></td><td></td><td>-</td><td></td></tr>
+    </table>
+  </li>
+  <li>(3pts) Compare GD vs SGD: specifically, comment on runtime, number of iterations, and resulting coefficients at convergence.</li>
+  <li>(2pts) In your experiments, how does the runtime of the closed-form solution compare to SGD? Which learning rate used in SGD produces the coefficients closest to the closed form solution?</li>
+  <li><span class="code-q">[CODE]</span> (3pts code + 5pts written) Propose a learning rate \(\eta_k\) that is a function of \(k\) (the number of iterations) and implement it in your code for SGD if the input argument <code>learning_rate='adaptive'</code>. How long does the algorithm (in terms of runtime and number of iterations) take to converge with your proposed learning rate? Are the coefficients produced by using your proposed learning rate close to the closed-form solution? How does the performance compare with SGD/GD with constant learning rates?</li>
+</ol>
+
+<h3>3.2 Linear Regression - Overfitting &amp; Regularization (22 pts)</h3>
+<p>Next, you will investigate the problem of overfitting. Here, we observe overfitting as we increase the degree of the polynomial, \(M\). We evaluate solutions using Root-Mean-Square (RMS) Error, defined as</p>
+\[E_{\text{RMS}} = \sqrt{\frac{1}{N}\sum_{i=1}^{N}\left(y^{(i)} - \vec\theta\cdot\phi(x^{(i)})\right)^2}\]
+<ol class="alpha">
+  <li><span class="code-q">[CODE]</span> (0pt) Implement the function <code>calculate_RMS_Error(X,y,theta)</code> according to the specification given in the skeleton code. Note that \(E_{\text{RMS}}\) is related to, but different from, empirical risk with squared loss.</li>
+  <li>(5pts) Using <code>ls_closed_form_solution()</code>, find the coefficients that minimize the empirical risk with <strong>squared loss</strong> for an \(M^{th}\) degree polynomial (for \(M = 0 \ldots 10\)) for the training data. Now use <code>calculate_RMS_Error()</code> to calculate the RMS Error for each setting of \(M\), on the training data and on the validation data (separately). Plot \(E_{\text{RMS}}\) against \(M\) for both training data and validation data (in the same graph) and include it in your write-up. Your plot should look like the following:
+    <div class="plot">[Example plot in original: \(E_{\text{RMS}}\) vs. \(M = 0\ldots10\), Train (red) and Validation (blue). Both start around 0.35–0.4, drop sharply by \(M \approx 4\); train stays low (~0.07), validation stays ~0.1 then rises sharply at \(M = 10\).]</div>
+  </li>
+  <li>(3pts) Which degree polynomial would you say best fits the data? Is there any evidence of underfitting / overfitting? Use your generated plot to justify your answer.</li>
+  <li><span class="code-q">[CODE]</span> (3pts) Modify your implementation of <code>ls_closed_form_solution(X,y,reg_param=0)</code> from part 3.1 to incorporate L2-regularization. Specifically, use the following regularized objective function:
+    \[\sum_{i=1}^{N}\frac{(\vec\theta\cdot\phi(x^{(i)}) - y^{(i)})^2}{2} + \frac{\lambda}{2}\|\vec\theta\|_2^2\]
+  </li>
+  <li>(5pts) Use your function from part (d) to find the coefficients that minimize the objective function for a tenth degree polynomial (\(M = 10\)) given regularization parameter \(\lambda \in \{0, 10^{-8}, 10^{-7}, \ldots, 10^{-1}, 10^{0}\}\) for the training data specified in <code>linreg_train.csv</code>. Now use these coefficients to calculate the RMS Error on both the training data and validation data as a function of \(\lambda\) and plot \(E_{\text{RMS}}\) against \(\lambda \in \{0, 10^{-8}, 10^{-7}, \ldots, 10^{-1}, 10^{0}\}\). Your plot should look like the following:
+    <div class="plot">[Example plot in original: \(E_{\text{RMS}}\) vs. \(\lambda\), Train (red) and Validation (blue). Validation is high at \(\lambda = 0\), drops to ~0.1 for small \(\lambda\), then both curves rise as \(\lambda\) approaches \(10^{0}\).]</div>
+  </li>
+  <li>(3pts) Which value of \(\lambda\) appears to work the best? Explain your answer.</li>
+  <li>(3pts) Based on your results, what values of \(M\) and \(\lambda\) would you use to model this dataset? If you feel that you can’t make a call yet, describe any additional experiments you might want to run.</li>
+</ol>
+
+<hr class="doc">
+
+<header>
+  <p>EMORY UNIVERSITY</p>
+  <p>Department of Computer Science</p>
+  <p>CS 334 Section 2 — Machine Learning</p>
+  <p>Fall 2026</p>
+  <h1>Homework 2 Extra Credit</h1>
+</header>
+
+<p>This is an optional extra credit question for HW2. Completing any parts of it will give you bonus points for your final grade. Please upload this part of the submission to HW2-ExtraCredit.</p>
+
+<h2>4 Weighted Linear Regression (20 pts)</h2>
+<p>You will use the same skeleton code <code>linear_regression.py</code> and data files, <code>linreg_train.csv</code> and <code>linreg_validation.csv</code>. In each csv file, there is one training/validation example per row. The first column specifies the output label (\(y^{(i)} \in \mathbb{R}\)), the second column specifies the input features (\(x^{(i)} \in \mathbb{R}\)), and the third column specifies the weight \(w^{(i)}\).</p>
+<p>Consider a linear regression problem in which we want to “weight” individual training examples differently. Specifically, suppose we want to minimize the cost function for weighted linear regression</p>
+\[J(\vec\theta) = \sum_{i=1}^{N} w^{(i)}\left(\vec\theta\cdot\vec x^{(i)} - y^{(i)}\right)^2 + \lambda\|\vec\theta\|_2^2\]
+<p>where \(D_N = \{\vec x^{(i)}, y^{(i)}\}_{i=1}^{N}\) is the set of training examples, \(\lambda\) is the regularization parameter, and \(w^{(i)} \geq 0\).</p>
+<ol class="alpha">
+  <li>(2pts) Describe a situation in which it would be useful to weight examples differently during training.</li>
+  <li>(5pts) Show that \(J(\vec\theta)\) can also be written as
+    \[J(\vec\theta) = (X\vec\theta - \vec y)^T W (X\vec\theta - \vec y) + \lambda\vec\theta^T\vec\theta\]
+    for some suitable diagonal matrix \(W\), where \(X = [\vec x^{(1)}, \vec x^{(2)}, \ldots, \vec x^{(N)}]^T\) and \(\vec y = [y^{(1)}, y^{(2)}, \ldots, y^{(N)}]^T\). Clearly state what \(W\) is.</li>
+  <li>(5pts) Find the closed-form solution for \(\vec\theta\) by taking the gradient of \(J(\vec\theta)\) with respect to \(\vec\theta\) and setting that to zero. Express your answer in terms of \(X\), \(\vec y\), and \(W\) as defined in (b). Show your work.</li>
+  <li>(4pts) Implement <code>weighted_ls_closed_form_solution(X,y,weights,reg_param=0)</code> using what you derived in (c). Attach your code (pasted in or as a screenshot).</li>
+  <li>(4pts) Use your function from part (d), follow what you did in part 3.2 to find which degree polynomial best fits the data (assume no regularization). Do you get the same conclusion as before? Why do you think that is the case? You may find it useful to generate 2D-plots for the training data and the output of regression functions.</li>
+</ol>
+
+</body>
+</html>
