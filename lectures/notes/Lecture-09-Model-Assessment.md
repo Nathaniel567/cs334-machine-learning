@@ -8,7 +8,7 @@
 ## Admin / Logistics
 
 - **HW2** due **Sunday 9/27, 11:59pm.** Solutions released the following Wednesday; grades Thursday or the week after.
-- **HW3 — "Predicting Survival of ICU Patients"** released Fri 9/25, due in two weeks (**Sun 10/11, 11:59pm**). Topics: Feature Engineering (Lec 2, 11), Logistic Regression (Lec 8), Model Assessment (Lec 9), Model Selection (Lec 10), Feature Selection (Lec 11).
+- **HW3 — "Predicting Survival of ICU Patients"** announced for Fri 9/25, due in two weeks (**Sun 10/11, 11:59pm**). Topics: Feature Engineering (Lec 2, 11), Logistic Regression (Lec 8), Model Assessment (Lec 9), Model Selection (Lec 10), Feature Selection (Lec 11).
 - **HW3 extra credit: the ROC curve (this lecture).** Originally announced as due Wed 10/14; Lecture 10 moved it to **10/19** (combined HW2 + HW3 extra credit).
 
 ### HW3 at a glance

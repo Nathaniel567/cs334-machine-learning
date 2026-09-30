@@ -50,8 +50,8 @@ Coursework, lecture notes, and in-class exercises.
 | # | Due | Status | Files |
 |---|---|---|---|
 | 1 | Sun 09/13, 11:59pm | Submitted · graded (solutions on Canvas) | [`homework/hw1/`](homework/hw1) |
-| 2 | Sun 09/27, 11:59pm | Complete — written, code, extra credit | [`homework/hw2/`](homework/hw2) |
-| 3 | Sun 10/11, 11:59pm | Released — honor code bans copying from LLMs | — (HW2 + HW3 extra credit, incl. the ROC curve, due 10/19) |
+| 2 | Sun 09/27, 11:59pm | Submitted — written, code, extra credit | [`homework/hw2/`](homework/hw2) |
+| 3 | Sun 10/11, 11:59pm | Not yet published | — (HW2 + HW3 extra credit, incl. the ROC curve, due 10/19) |
 
 ---
 

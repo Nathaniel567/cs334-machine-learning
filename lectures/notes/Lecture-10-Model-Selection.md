@@ -8,8 +8,8 @@
 ## Admin / Logistics
 
 - **HW2** is in. Solutions posted Wednesday; grading hopefully by Thursday.
-- **HW3 released** — "Predicting Survival of ICU Patients", issued Fri 9/25, **due Sun 10/11, 11:59pm.** Two Gradescope parts: **HW3-Written** (PDF; the spec highlights the sub-questions that must appear in the write-up) and **HW3-Code&Challenge** (`hw3_main.py`, `hw3_challenge.py`, `challenge.csv` with predictions for the held-out patients). The challenge leaderboard is disabled for the duration of the homework.
-- **HW3's honor-code statement is stricter than HW2's:** *"THIS HOMEWORK IS MY OWN WORK, WRITTEN WITHOUT COPYING FROM OTHER STUDENTS **OR DIRECTLY FROM LARGE LANGUAGE MODELS SUCH AS CHATGPT**."* — plus an acknowledgment of any collaboration or external resources.
+- **HW3 announced** — "Predicting Survival of ICU Patients" (not yet published), **due Sun 10/11, 11:59pm.** Two Gradescope parts: **HW3-Written** (PDF; the spec highlights the sub-questions that must appear in the write-up) and **HW3-Code&Challenge** (`hw3_main.py`, `hw3_challenge.py`, `challenge.csv` with predictions for the held-out patients). The challenge leaderboard is disabled for the duration of the homework.
+- **HW3's honor-code statement** isn't final until the homework is published; the preview on the slide may change.
 - **HW2 + HW3 extra credit** due **10/19** (replaces the 10/14 date given in Lecture 09).
 
 ---
