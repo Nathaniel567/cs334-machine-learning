@@ -1,6 +1,6 @@
 # HW2 — Issued Fri 09/11, Due **Sun 09/27, 11:59pm**
 
-Spec: [`cs334_hw2.html`](cs334_hw2.html)
+Spec: [`HW2-spec.pdf`](HW2-spec.pdf) · [`cs334_hw2.html`](cs334_hw2.html)
 
 ## Contents
 

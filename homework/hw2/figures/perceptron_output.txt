@@ -1,0 +1,16 @@
+Done!
+============== Classifier ==============
+Theta:  [4. 0.]
+b:  -6.0
+
+
+============== Alpha ===================
+i 	 Number of Misclassifications
+========================================
+0 		 1
+1 		 0
+2 		 11
+3 		 2
+4 		 0
+5 		 4
+Total Number of Misclassifications:  18
