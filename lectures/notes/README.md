@@ -12,6 +12,8 @@ worth having memorized, in plain text.
 | [06](Lecture-06-Linear-Regression.md) | 09/15 | Linear Regression — squared loss, SGD, closed form, invertibility of `XᵀX` |
 | [07](Lecture-07-Regularization.md) | 09/17 | Regularization — polynomial features, bias–variance, ridge & LASSO, geometry |
 | [08](Lecture-08-Logistic-Regression.md) | 09/22 | Logistic Regression — sigmoid, likelihood → logistic loss, SGD, separable data |
+| [09](Lecture-09-Model-Assessment.md) | 09/24 | Model Assessment — confusion matrix, precision/recall, F1, ROC/AUROC, AUPRC, regression metrics |
+| [10](Lecture-10-Model-Selection.md) | 09/29 | Model Selection — holdout, K-fold & Monte Carlo CV, hyperparameters, three-way split, nested CV |
 
 Notes are written from the slide decks in [`../slides/`](../slides), which include the
 professor's handwritten in-class annotations.

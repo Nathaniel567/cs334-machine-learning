@@ -18,7 +18,8 @@ Coursework, lecture notes, and in-class exercises.
 │   ├── ex02-python-numpy-pandas/
 │   └── ex03-linear-classification/
 └── homework/
-    └── hw1/             spec, skeleton code, data, self-check harness
+    ├── hw1/             spec, skeleton code, data, self-check harness
+    └── hw2/             spec, written + extra-credit PDFs/sources, code, figures
 ```
 
 ---
@@ -34,6 +35,8 @@ Coursework, lecture notes, and in-class exercises.
 | 06 | 09/15 | Linear Regression | [PDF](lectures/slides/Lecture-06-Linear-Regression.pdf) | [Notes](lectures/notes/Lecture-06-Linear-Regression.md) |
 | 07 | 09/17 | Regularization | [PDF](lectures/slides/Lecture-07-Regularization.pdf) | [Notes](lectures/notes/Lecture-07-Regularization.md) |
 | 08 | 09/22 | Logistic Regression | [PDF](lectures/slides/Lecture-08-Logistic-Regression.pdf) | [Notes](lectures/notes/Lecture-08-Logistic-Regression.md) |
+| 09 | 09/24 | Model Assessment | [PDF](lectures/slides/Lecture-09-Model-Assessment.pdf) | [Notes](lectures/notes/Lecture-09-Model-Assessment.md) |
+| 10 | 09/29 | Model Selection | [PDF](lectures/slides/Lecture-10-Model-Selection.pdf) | [Notes](lectures/notes/Lecture-10-Model-Selection.md) |
 
 ## In-Class Exercises
 
@@ -47,7 +50,8 @@ Coursework, lecture notes, and in-class exercises.
 | # | Due | Status | Files |
 |---|---|---|---|
 | 1 | Sun 09/13, 11:59pm | Submitted · graded (solutions on Canvas) | [`homework/hw1/`](homework/hw1) |
-| 2 | Sun 09/27, 11:59pm | Released — not started | — (extra credit: Weighted Linear Regression, due Wed 09/30) |
+| 2 | Sun 09/27, 11:59pm | Complete — written, code, extra credit | [`homework/hw2/`](homework/hw2) |
+| 3 | Sun 10/11, 11:59pm | Released — honor code bans copying from LLMs | — (HW2 + HW3 extra credit, incl. the ROC curve, due 10/19) |
 
 ---
 
@@ -91,6 +95,10 @@ J(θ⃗)         = R_N(θ⃗) + λ Ω(θ⃗)                     regularized obj
 h(x⃗; θ⃗)      = σ(θ⃗ · x⃗) = Pr[y = +1 | x⃗]            logistic regression
 loss_log(z)  = log(1 + e⁻ᶻ),  z = y(θ⃗ · x⃗)          logistic loss (convex; from MLE)
 θ⃗ ← θ⃗ + η (1 − σ(y θ⃗·x⃗)) y x⃗                       logistic SGD (no closed form)
+
+TPR = recall = TP/(TP+FN)   FPR = FP/(TN+FP)       ROC: TPR vs FPR over all thresholds
+precision = TP/(TP+FP)      F1 = 2PR/(P+R)         AUROC = P[score(x⁺) > score(x⁻)]
+C* = argmin_C  avg K-fold CV error                 never tune + assess on the same data
 ```
 
 Three things that are easy to lose points on:
